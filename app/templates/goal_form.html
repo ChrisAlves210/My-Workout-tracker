@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>New Goal</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>{{ form.title.label }} {{ form.title(size=30) }}</p>
+    <p>{{ form.target_value.label }} {{ form.target_value() }}</p>
+    <p>{{ form.unit.label }} {{ form.unit(size=20) }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

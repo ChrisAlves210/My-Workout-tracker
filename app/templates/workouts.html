@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>All Workouts</h1>
+<ul>
+    {% for w in workouts %}
+    <li>{{ w.date }} - {{ w.type }}: {{ w.duration_minutes }} min, {{ w.calories or 0 }} cal</li>
+    {% else %}
+    <li>No workouts logged.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

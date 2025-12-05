@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Log Workout</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>{{ form.date.label }} {{ form.date(size=20) }}</p>
+    <p>{{ form.type.label }} {{ form.type(size=20) }}</p>
+    <p>{{ form.duration_minutes.label }} {{ form.duration_minutes() }}</p>
+    <p>{{ form.calories.label }} {{ form.calories() }}</p>
+    <p>{{ form.notes.label }} {{ form.notes(rows=3, cols=40) }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

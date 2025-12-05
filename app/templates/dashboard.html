@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Dashboard</h1>
+<a href="{{ url_for('main.new_workout') }}">Log Workout</a> |
+<a href="{{ url_for('main.new_goal') }}">Add Goal</a> |
+<a href="{{ url_for('main.workouts_list') }}">View All Workouts</a>
+
+<h2>Recent Workouts</h2>
+<ul>
+    {% for w in workouts %}
+    <li>{{ w.date }} - {{ w.type }} ({{ w.duration_minutes }} min)</li>
+    {% else %}
+    <li>No workouts yet.</li>
+    {% endfor %}
+</ul>
+
+<h2>Goals</h2>
+<ul>
+    {% for g in goals %}
+    <li>{{ g.title }}: {{ g.current_value }}/{{ g.target_value }} {{ g.unit }}</li>
+    {% else %}
+    <li>No goals yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
