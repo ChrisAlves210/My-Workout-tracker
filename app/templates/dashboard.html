@@ -8,7 +8,12 @@
 <h2>Recent Workouts</h2>
 <ul>
     {% for w in workouts %}
-    <li>{{ w.date }} - {{ w.type }} ({{ w.duration_minutes }} min)</li>
+    <li>
+        {{ w.date }} - {{ w.type }} ({{ w.sets }} sets{{ ' x ' ~ w.reps if w.reps is not none else '' }}{{ ' @ ' ~ w.weight if w.weight is not none else '' }})
+        <form method="POST" action="{{ url_for('main.delete_workout', workout_id=w.id) }}" style="display:inline">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
     {% else %}
     <li>No workouts yet.</li>
     {% endfor %}
@@ -17,7 +22,16 @@
 <h2>Goals</h2>
 <ul>
     {% for g in goals %}
-    <li>{{ g.title }}: {{ g.current_value }}/{{ g.target_value }} {{ g.unit }}</li>
+    <li>
+        {{ g.title }}:
+        {% if g.current_value and g.current_value > 0 %}
+            {{ g.current_value }}/
+        {% endif %}
+        {{ g.target_value }} {{ g.unit }}
+        <form method="POST" action="{{ url_for('main.delete_goal', goal_id=g.id) }}" style="display:inline">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
     {% else %}
     <li>No goals yet.</li>
     {% endfor %}

@@ -27,7 +27,9 @@ class Workout(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	date = db.Column(db.Date, default=datetime.utcnow)
 	type = db.Column(db.String(64), nullable=False)  # e.g., run, lift, yoga
-	duration_minutes = db.Column(db.Integer, nullable=False)
+	sets = db.Column(db.Integer, nullable=False)
+	weight = db.Column(db.Integer)  # in pounds or kg
+	reps = db.Column(db.Integer)
 	calories = db.Column(db.Integer)
 	notes = db.Column(db.Text)
 

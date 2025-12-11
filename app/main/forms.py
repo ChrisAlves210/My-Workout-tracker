@@ -5,7 +5,9 @@ from wtforms.validators import DataRequired, Length, NumberRange
 class WorkoutForm(FlaskForm):
 	date = DateField('Date', validators=[DataRequired()])
 	type = StringField('Type', validators=[DataRequired(), Length(max=64)])
-	duration_minutes = IntegerField('Duration (min)', validators=[DataRequired(), NumberRange(min=1)])
+	sets = IntegerField('Sets', validators=[DataRequired(), NumberRange(min=1)])
+	weight = IntegerField('Weight', validators=[NumberRange(min=0)])
+	reps = IntegerField('Reps', validators=[NumberRange(min=0)])
 	calories = IntegerField('Calories', validators=[NumberRange(min=0)])
 	notes = TextAreaField('Notes', validators=[Length(max=500)])
 	submit = SubmitField('Save Workout')

@@ -26,7 +26,9 @@ def new_workout():
 			user_id=current_user.id,
 			date=form.date.data,
 			type=form.type.data,
-			duration_minutes=form.duration_minutes.data,
+			sets=form.sets.data,
+			weight=form.weight.data,
+			reps=form.reps.data,
 			calories=form.calories.data,
 			notes=form.notes.data,
 		)
@@ -58,3 +60,27 @@ def new_goal():
 def workouts_list():
 	workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).all()
 	return render_template('workouts.html', workouts=workouts)
+
+@main.route('/workouts/<int:workout_id>/delete', methods=['POST'])
+@login_required
+def delete_workout(workout_id: int):
+	workout = Workout.query.get_or_404(workout_id)
+	if workout.user_id != current_user.id:
+		flash('Not authorized to delete this workout.', 'danger')
+		return redirect(url_for('main.workouts_list'))
+	db.session.delete(workout)
+	db.session.commit()
+	flash('Workout deleted.', 'info')
+	return redirect(url_for('main.workouts_list'))
+
+@main.route('/goals/<int:goal_id>/delete', methods=['POST'])
+@login_required
+def delete_goal(goal_id: int):
+	goal = Goal.query.get_or_404(goal_id)
+	if goal.user_id != current_user.id:
+		flash('Not authorized to delete this goal.', 'danger')
+		return redirect(url_for('main.dashboard'))
+	db.session.delete(goal)
+	db.session.commit()
+	flash('Goal deleted.', 'info')
+	return redirect(url_for('main.dashboard'))

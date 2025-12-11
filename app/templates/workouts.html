@@ -3,7 +3,12 @@
 <h1>All Workouts</h1>
 <ul>
     {% for w in workouts %}
-    <li>{{ w.date }} - {{ w.type }}: {{ w.duration_minutes }} min, {{ w.calories or 0 }} cal</li>
+    <li>
+        {{ w.date }} - {{ w.type }}: {{ w.sets }} sets x {{ w.reps or 0 }} @ {{ w.weight or 0 }}, {{ w.calories or 0 }} cal
+        <form method="POST" action="{{ url_for('main.delete_workout', workout_id=w.id) }}" style="display:inline">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
     {% else %}
     <li>No workouts logged.</li>
     {% endfor %}
