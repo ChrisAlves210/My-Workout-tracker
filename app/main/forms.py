@@ -17,3 +17,6 @@ class GoalForm(FlaskForm):
 	target_value = IntegerField('Target Value', validators=[DataRequired(), NumberRange(min=1)])
 	unit = StringField('Unit', validators=[DataRequired(), Length(max=32)])
 	submit = SubmitField('Save Goal')
+
+class DeleteForm(FlaskForm):
+	submit = SubmitField('Delete')

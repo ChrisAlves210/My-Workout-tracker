@@ -4,14 +4,15 @@
 <a href="{{ url_for('main.new_workout') }}">Log Workout</a> |
 <a href="{{ url_for('main.new_goal') }}">Add Goal</a> |
 <a href="{{ url_for('main.workouts_list') }}">View All Workouts</a>
-
+** Note: This is the workouts Dashboard **
 <h2>Recent Workouts</h2>
 <ul>
     {% for w in workouts %}
     <li>
         {{ w.date }} - {{ w.type }} ({{ w.sets }} sets{{ ' x ' ~ w.reps if w.reps is not none else '' }}{{ ' @ ' ~ w.weight if w.weight is not none else '' }})
         <form method="POST" action="{{ url_for('main.delete_workout', workout_id=w.id) }}" style="display:inline">
-            <button type="submit">Delete</button>
+            {{ delete_form.hidden_tag() }}
+            <button type="submit" class="btn-danger">Delete</button>
         </form>
     </li>
     {% else %}
@@ -29,7 +30,8 @@
         {% endif %}
         {{ g.target_value }} {{ g.unit }}
         <form method="POST" action="{{ url_for('main.delete_goal', goal_id=g.id) }}" style="display:inline">
-            <button type="submit">Delete</button>
+            {{ delete_form.hidden_tag() }}
+            <button type="submit" class="btn-danger">Delete</button>
         </form>
     </li>
     {% else %}

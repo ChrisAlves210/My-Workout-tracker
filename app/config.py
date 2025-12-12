@@ -8,5 +8,9 @@ class Config(object):
     """Set environment variables."""
 
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    # This is the secret key for WTF forms ##
+    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-me')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    WTF_CSRF_ENABLED = True
+    # Optional: disable CSRF token expiry in dev to reduce 403s from stale pages
+    WTF_CSRF_TIME_LIMIT = None

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.main.forms import WorkoutForm, GoalForm
+from app.main.forms import WorkoutForm, GoalForm, DeleteForm
 from app.models import Workout, Goal
 from app.extensions import db
 
@@ -15,7 +15,8 @@ def index():
 def dashboard():
 	workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).limit(10).all()
 	goals = Goal.query.filter_by(user_id=current_user.id).all()
-	return render_template('dashboard.html', workouts=workouts, goals=goals)
+	delete_form = DeleteForm()
+	return render_template('dashboard.html', workouts=workouts, goals=goals, delete_form=delete_form)
 
 @main.route('/workouts/new', methods=['GET', 'POST'])
 @login_required
@@ -59,11 +60,16 @@ def new_goal():
 @login_required
 def workouts_list():
 	workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).all()
-	return render_template('workouts.html', workouts=workouts)
+	delete_form = DeleteForm()
+	return render_template('workouts.html', workouts=workouts, delete_form=delete_form)
 
 @main.route('/workouts/<int:workout_id>/delete', methods=['POST'])
 @login_required
 def delete_workout(workout_id: int):
+	form = DeleteForm()
+	if not form.validate_on_submit():
+		flash('Invalid request.', 'danger')
+		return redirect(url_for('main.workouts_list'))
 	workout = Workout.query.get_or_404(workout_id)
 	if workout.user_id != current_user.id:
 		flash('Not authorized to delete this workout.', 'danger')
@@ -76,6 +82,10 @@ def delete_workout(workout_id: int):
 @main.route('/goals/<int:goal_id>/delete', methods=['POST'])
 @login_required
 def delete_goal(goal_id: int):
+	form = DeleteForm()
+	if not form.validate_on_submit():
+		flash('Invalid request.', 'danger')
+		return redirect(url_for('main.dashboard'))
 	goal = Goal.query.get_or_404(goal_id)
 	if goal.user_id != current_user.id:
 		flash('Not authorized to delete this goal.', 'danger')

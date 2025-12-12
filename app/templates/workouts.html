@@ -6,7 +6,8 @@
     <li>
         {{ w.date }} - {{ w.type }}: {{ w.sets }} sets x {{ w.reps or 0 }} @ {{ w.weight or 0 }}, {{ w.calories or 0 }} cal
         <form method="POST" action="{{ url_for('main.delete_workout', workout_id=w.id) }}" style="display:inline">
-            <button type="submit">Delete</button>
+            {{ delete_form.hidden_tag() }}
+            <button type="submit" class="btn-danger">Delete</button>
         </form>
     </li>
     {% else %}
